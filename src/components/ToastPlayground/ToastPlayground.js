@@ -6,40 +6,25 @@ import Radio from '../Radio/Radio';
 
 import ToastShelf from '../ToastShelf/ToastShelf';
 
+// import {
+// 	ToastContext,
+// 	removeElementById,
+// 	handleToastDismiss,
+// 	handleAddToast,
+// } from '../ToastProvider';
+
+import { ToastContext } from '../ToastProvider';
+import { MessageContext } from '../MessageProvider';
+import { VariantContext } from '../VariantProvider';
+
 import styles from './ToastPlayground.module.css';
 
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 
 function ToastPlayground() {
-	const [message, setMessage] = React.useState('');
-	const [variant, setVariant] = React.useState('notice');
-	const [toastArray, setToastArray] = React.useState([]);
-
-	function removeElementById(array, id) {
-		return array.filter((obj) => {
-			return obj.id !== id;
-		});
-	}
-	function handleToastDismiss(id) {
-		const newToastArray = removeElementById(toastArray, id);
-
-		setToastArray([...newToastArray]);
-	}
-
-	function handleAddToast(event) {
-		event.preventDefault();
-
-		const newToast = {
-			id: crypto.randomUUID(),
-			message: message,
-			variant: variant,
-		};
-
-		setToastArray([...toastArray, newToast]);
-
-		setMessage('');
-		setVariant('notice');
-	}
+	const { handleAddToast } = React.useContext(ToastContext);
+	const { message, setMessage } = React.useContext(MessageContext);
+	const { variant, setVariant } = React.useContext(VariantContext);
 
 	return (
 		<div className={styles.wrapper}>
@@ -48,15 +33,14 @@ function ToastPlayground() {
 				<h1>Toast Playground</h1>
 			</header>
 
-			<ToastShelf
-				toastArray={toastArray}
-				handleToastDismiss={handleToastDismiss}
-			/>
+			<ToastShelf />
 
 			<div className={styles.controlsWrapper}>
 				<form
 					onSubmit={(event) => {
-						handleAddToast(event);
+						handleAddToast(event, message, variant);
+						setMessage('');
+						setVariant('notice');
 					}}
 				>
 					<div className={styles.row}>
