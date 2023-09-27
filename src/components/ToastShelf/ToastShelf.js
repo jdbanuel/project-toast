@@ -9,12 +9,16 @@ function ToastShelf() {
 		React.useContext(ToastContext);
 
 	React.useEffect(() => {
-		document.addEventListener('keydown', (event) => {
-			console.log(event);
-			if (event.key === '``') {
+		const handleEscapeKey = function (event) {
+			if (event.key === 'Escape') {
 				clearAllToasts();
 			}
-		});
+		};
+		document.addEventListener('keydown', handleEscapeKey);
+
+		return () => {
+			document.removeEventListener('keydown', handleEscapeKey);
+		};
 	}, []);
 
 	return (
