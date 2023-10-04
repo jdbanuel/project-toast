@@ -1,12 +1,12 @@
 import React from 'react';
-import { useEscapeKey } from '../../hooks/useEscapeKey';
+import { useKeyDown } from '../../hooks/useKeyDown';
 
 export const ToastContext = React.createContext();
 
 function ToastProvider({ children }) {
 	const [toastArray, setToastArray] = React.useState([]);
 
-	useEscapeKey(clearAllToasts);
+	useKeyDown('Escape', clearAllToasts);
 
 	function removeElementById(array, id) {
 		return array.filter((obj) => {
