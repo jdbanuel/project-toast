@@ -38,8 +38,6 @@ function ToastProvider({ children }) {
 
 	const value = {
 		toastArray,
-		setToastArray,
-		removeElementById,
 		handleToastDismiss,
 		handleAddToast,
 		clearAllToasts,
